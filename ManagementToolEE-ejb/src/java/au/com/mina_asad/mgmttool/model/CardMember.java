@@ -13,6 +13,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 /**
@@ -39,6 +41,14 @@ import javax.validation.constraints.Size;
 *  Persistence Entity Name.
 */
 @Entity(name = "CardMember")
+/**
+*  Named Queries.
+*/
+@NamedQueries({
+    @NamedQuery(
+        name="findAllCardMembers",
+        query="select cm from CardMember cm")
+})
 public class CardMember implements Serializable {
     /*
         Attributes

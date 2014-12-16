@@ -58,10 +58,6 @@ import javax.validation.constraints.Size;
         query="select m from CardMember m " +
         "where m.owner.id= :cardid"),
     @NamedQuery(
-        name="findCountMembersBelongingToCard",
-        query="select count(m.id) from CardMember m " +
-        "where m.owner.id = :cardid"),
-    @NamedQuery(
         name="deleteAllMembersBelongingToCard",
         query="delete from CardMember m " +
         "where m.owner.id = :cardid")
@@ -175,7 +171,7 @@ public class Card implements Serializable {
     *  Retrieve {@link #members}
      * @return List<> of card lists.
     */
-    @OneToMany(mappedBy = "cardowner")
+    @OneToMany(mappedBy = "owner")
     public List<CardMember> getMembers() {
         return members;
     }

@@ -42,6 +42,14 @@ import javax.validation.constraints.Size;
 *  Persistence Entity Name.
 */
 @Entity(name = "Label")
+/**
+*  Named Queries.
+*/
+@NamedQueries({
+    @NamedQuery(
+        name="findAllLabels",
+        query="select lb from Label lb")
+})
 public class Label implements Serializable {
     /*
         Attributes
