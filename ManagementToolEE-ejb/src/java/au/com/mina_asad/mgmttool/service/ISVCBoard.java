@@ -24,8 +24,10 @@ import javax.ejb.Local;
 public interface ISVCBoard {
     public int                  create(Board newBoard);
     public List<Board>          findAll();
+    public List<Board>          findAllNonHidden();
     public Board                findById(int boardId);
     public Board                findByName(String boardName);
+    public boolean              rename(String newBoardName, int existingBoardId);
     public boolean              isNameTaken(String boardName);
     public boolean              archiveById(int existingBoardId);
 }

@@ -21,7 +21,9 @@ import java.util.List;
 public interface ICard
 {
     public int                  create(Card newCard);
+    public List<Card>           findAllNonHidden();
     public Card                 findById(int cardId);
     public boolean              updateDueDate (int cardId, Date updatedDueDate);
+    public boolean              rename(String newCardTitle, int existingCardId);
     public boolean              archiveById(int existingCardId);
 }

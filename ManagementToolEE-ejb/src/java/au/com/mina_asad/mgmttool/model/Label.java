@@ -48,7 +48,11 @@ import javax.validation.constraints.Size;
 @NamedQueries({
     @NamedQuery(
         name="findAllLabels",
-        query="select lb from Label lb")
+        query="select lb from Label lb"),
+    @NamedQuery(
+        name="findByLabelName",
+        query="select lb from Label lb " +
+        "where lb.name = :labelName")
 })
 public class Label implements Serializable {
     /*
@@ -59,8 +63,8 @@ public class Label implements Serializable {
         /*
             Reverse relationship declarations.
         */
-        private Card cardowner;
-        private Board boardowner;
+        private Card cardOwner;
+        private Board boardOwner;
     
     // Constructors
     /**
@@ -105,11 +109,11 @@ public class Label implements Serializable {
     */
     @OneToOne(mappedBy = "label")
     public Card getCardOwner() {
-        return cardowner;
+        return cardOwner;
     }
 
     public void setCardOwner(Card cardowner) {
-        this.cardowner = cardowner;
+        this.cardOwner = cardowner;
     }
     
     /** 
@@ -118,11 +122,11 @@ public class Label implements Serializable {
     */
     @ManyToOne
     public Board getBoardOwner() {
-        return boardowner;
+        return boardOwner;
     }
 
     public void setBoardOwner(Board boardowner) {
-        this.boardowner = boardowner;
+        this.boardOwner = boardowner;
     }
     
     // Operations

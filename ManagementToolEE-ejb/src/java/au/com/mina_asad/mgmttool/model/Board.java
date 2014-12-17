@@ -48,7 +48,23 @@ import javax.persistence.Transient;
 @NamedQueries({
     @NamedQuery(
         name="findAllBoards",
-        query="select bo from Board bo")
+        query="select bo from Board bo"),
+    @NamedQuery(
+        name="findAllNonHiddenBoards",
+        query="select bo from Board bo " +
+        "where bo.hidden = false"),
+    @NamedQuery(
+        name="findByBoardName",
+        query="select bo from Board bo " +
+        "where bo.name = :boardName"),
+    @NamedQuery(
+        name="findCountListsBelongingToBoard",
+        query="select count(ls.id) from BoardList ls " +
+        "where ls.owner.id = :boardid"),
+    @NamedQuery(
+        name="findCountLabelsBelongingToBoard",
+        query="select count(lb.id) from Label lb " +
+        "where lb.boardOwner.id = :boardid")
 })
 public class Board implements Serializable {
     /*
@@ -158,7 +174,7 @@ public class Board implements Serializable {
     *  Retrieve {@link #labels}
      * @return List<> of Board labels.
     */
-    @OneToMany(mappedBy = "boardowner")
+    @OneToMany(mappedBy = "boardOwner")
     public List<Label> getLabels() {
         return labels;
     }

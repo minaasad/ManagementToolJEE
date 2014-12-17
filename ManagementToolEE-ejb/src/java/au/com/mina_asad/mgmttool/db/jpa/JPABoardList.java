@@ -63,6 +63,19 @@ public class JPABoardList extends JPAS implements IBoardList, Serializable {
     }
     
     /**
+     * Retrieves all BoardList records from the BoardList table 
+     * that are not marked as hidden.
+     * 
+     * @return List<> of Board Data Transfer Objects.
+     */
+    @Override
+    public List<BoardList> findAllNonHidden() {
+        TypedQuery<BoardList> query = 
+        em.createNamedQuery("findAllNonHiddenBoardLists", BoardList.class);
+        return query.getResultList();
+    }
+    
+    /**
      * Retrieves a Board from the Board table, 
      * corresponding to a given Board id.
      * 
@@ -91,6 +104,21 @@ public class JPABoardList extends JPAS implements IBoardList, Serializable {
             em.createNamedQuery("findCountListsBelongingToBoard");
         query.setParameter("boardid", boardId);
         return Integer.parseInt(query.getSingleResult().toString());
+    }
+    
+    /**
+     * Renames an existing BoardList record 
+     * 
+     * @param newBoardListName The new name to apply to the BoardList.
+     * @param existingBoardListId The id of an existing BoardList record.
+     * @return True if no problems were encountered, otherwise false.
+     */
+    @Override
+    public boolean rename(String newBoardListName, int existingBoardListId) {
+        BoardList dbBL = findById(existingBoardListId);
+            dbBL.setName(newBoardListName);
+            em.flush();
+        return true;
     }
 
     /**

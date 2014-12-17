@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 /**
@@ -47,7 +48,23 @@ import javax.validation.constraints.Size;
 @NamedQueries({
     @NamedQuery(
         name="findAllCardMembers",
-        query="select cm from CardMember cm")
+        query="select cm from CardMember cm"),
+    @NamedQuery(
+        name="findAllNonHiddenCardMembers",
+        query="select cm from CardMember cm " +
+        "where cm.hidden = false"),
+    @NamedQuery(
+        name="findAllMembersBelongingToCard",
+        query="select m from CardMember m " +
+        "where m.owner.id= :cardid"),
+    @NamedQuery(
+        name="findByCardMemberName",
+        query="select cm from CardMember cm " +
+        "where cm.name = :cardMemberName"),
+    @NamedQuery(
+        name="deleteAllMembersBelongingToCard",
+        query="delete from CardMember m " +
+        "where m.owner.id = :cardid")
 })
 public class CardMember implements Serializable {
     /*
@@ -124,9 +141,9 @@ public class CardMember implements Serializable {
 
     /** 
     *  Retrieve {@link #owner}.
-     * @return CardMember Card owner.
+     * @return CardMember Card assigned to (owner).
     */
-    @ManyToOne
+    @OneToOne(mappedBy = "member")
     public Card getOwner() {
         return owner;
     }

@@ -22,9 +22,11 @@ import javax.ejb.Local;
  */
 @Local
 public interface ISVCBoardList {
-    public int                  create(BoardList newBoardList);
+    public int                  create(BoardList newBoardList, int BoardId);
     public List<BoardList>      findAllBelongingToBoardId(int boardId);
+    public List<BoardList>      findAllNonHidden();
     public BoardList            findById(int boardListId);
     public int                  findCountBelongingToBoardId(int boardId);
+    public boolean              rename(String newBoardListName, int existingBoardListId);
     public boolean              archiveById(int existingBoardListId);
 }

@@ -21,6 +21,9 @@ public interface ICardMember
 {
     public int                  create(CardMember newCardMember);
     public List<CardMember>     findAll();
+    public List<CardMember>     findAllNonHidden();
     public CardMember           findById(int cardMemberId);
+    public CardMember           findByName(String cardMemberName);
+    public boolean              rename(String newCardMemberName, int existingCardMemberId);
     public boolean              archiveById(int existingCardMemberId);
 }

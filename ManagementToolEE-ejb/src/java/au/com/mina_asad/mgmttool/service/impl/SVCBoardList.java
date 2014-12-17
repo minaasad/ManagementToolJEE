@@ -6,7 +6,9 @@ package au.com.mina_asad.mgmttool.service.impl;
  * modify it in exchange for some acknowledgement to the author.
  *
 */
+import au.com.mina_asad.mgmttool.db.jpa.JPABoard;
 import au.com.mina_asad.mgmttool.db.jpa.JPABoardList;
+import au.com.mina_asad.mgmttool.model.Board;
 import au.com.mina_asad.mgmttool.model.BoardList;
 import au.com.mina_asad.mgmttool.service.ISVCBoardList;
 import java.io.Serializable;
@@ -34,22 +36,34 @@ public class SVCBoardList implements ISVCBoardList, Serializable {
         Enterprise Java Bean References
     */
     @EJB
+    JPABoard jBoard;
+    
+    @EJB
     JPABoardList jBoardList;
 
     /**
      * Service method to assist in creating a new BoardList.
      * 
      * @param newBoardList New BoardList object.
+     * @param boardId Valid id of an existing board.
      * @return Newly generated BoardList id.
      */
     @Override
-    public int create(BoardList newBoardList) {
+    public int create(BoardList newBoardList, int boardId) {
+        Board hostBoard = jBoard.findById(boardId);
+        newBoardList.setOwner(hostBoard);
+        
         return jBoardList.create(newBoardList);
     }
 
     @Override
     public List<BoardList> findAllBelongingToBoardId(int boardId) {
         return jBoardList.findAllBelongingToBoardId(boardId);
+    }
+    
+    @Override
+    public List<BoardList> findAllNonHidden() {
+        return jBoardList.findAllNonHidden();
     }
 
     @Override
@@ -60,6 +74,11 @@ public class SVCBoardList implements ISVCBoardList, Serializable {
     @Override
     public int findCountBelongingToBoardId(int boardId) {
         return jBoardList.findCountBelongingToBoardId(boardId);
+    }
+    
+    @Override
+    public boolean rename(String newBoardListName, int existingBoardListId) {
+        return jBoardList.rename(newBoardListName, existingBoardListId);
     }
 
     @Override

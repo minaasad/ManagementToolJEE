@@ -25,5 +25,8 @@ public interface ISVCLabel {
     public int                  create(Label newLabel);
     public List<Label>          findAll();
     public Label                findById(int labelId);
+    public Label                findByName(String labelName);
     public int                  findCountBelongingToBoardId(int boardId);
+    public boolean              rename(String newLabelTitle, int existingLabelId);
+    public boolean              isNameTaken(String labelName);
 }

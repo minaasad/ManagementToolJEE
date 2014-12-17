@@ -21,7 +21,9 @@ public interface IBoardList
 {
     public int                  create(BoardList newBoardList);
     public List<BoardList>      findAllBelongingToBoardId(int boardId);
+    public List<BoardList>      findAllNonHidden();
     public BoardList            findById(int boardListId);
     public int                  findCountBelongingToBoardId(int boardId);
+    public boolean              rename(String newBoardListName, int existingBoardListId);
     public boolean              archiveById(int existingBoardListId);
 }

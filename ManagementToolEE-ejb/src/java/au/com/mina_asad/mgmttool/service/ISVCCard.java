@@ -8,6 +8,7 @@ package au.com.mina_asad.mgmttool.service;
 */
 import au.com.mina_asad.mgmttool.model.Card;
 import java.util.Date;
+import java.util.List;
 import javax.ejb.Local;
 /**
  * Local Card Service Interface.
@@ -22,8 +23,10 @@ import javax.ejb.Local;
  */
 @Local
 public interface ISVCCard {
-    public int                  create(Card newCard);
+    public int                  create(Card newCard, int BoardListId);
+    public List<Card>           findAllNonHidden();
     public Card                 findById(int cardId);
     public boolean              updateDueDate (int cardId, Date updatedDueDate);
+    public boolean              rename(String newCardTitle, int existingCardId);
     public boolean              archiveById(int existingCardId);
 }

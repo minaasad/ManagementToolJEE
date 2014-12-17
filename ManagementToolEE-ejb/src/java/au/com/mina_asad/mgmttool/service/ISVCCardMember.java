@@ -24,6 +24,10 @@ import javax.ejb.Local;
 public interface ISVCCardMember {
     public int                  create(CardMember newCardMember);
     public List<CardMember>     findAll();
+    public List<CardMember>     findAllNonHidden();
     public CardMember           findById(int cardMemberId);
+    public CardMember           findByName(String cardMemberName);
     public boolean              archiveById(int existingCardMemberId);
+    public boolean              rename(String newCardMemberName, int existingCardMemberId);
+    public boolean              isNameTaken(String cardMemberName);
 }

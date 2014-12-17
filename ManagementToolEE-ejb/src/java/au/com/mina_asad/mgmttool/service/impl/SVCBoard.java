@@ -51,6 +51,11 @@ public class SVCBoard implements ISVCBoard, Serializable {
     public List<Board> findAll() {
         return jBoard.findAll();
     }
+    
+    @Override
+    public List<Board> findAllNonHidden() {
+        return jBoard.findAllNonHidden();
+    }
 
     @Override
     public Board findById(int boardId) {
@@ -60,6 +65,11 @@ public class SVCBoard implements ISVCBoard, Serializable {
     @Override
     public Board findByName(String boardName) {
         return jBoard.findByName(boardName);
+    }
+    
+    @Override
+    public boolean rename(String newBoardName, int existingBoardId) {
+        return jBoard.rename(newBoardName, existingBoardId);
     }
 
     @Override

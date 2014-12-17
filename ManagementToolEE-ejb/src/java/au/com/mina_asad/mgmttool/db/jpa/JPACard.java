@@ -10,9 +10,11 @@ import au.com.mina_asad.mgmttool.db.ICard;
 import au.com.mina_asad.mgmttool.model.Card;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.TypedQuery;
 /**
  * Card JPA Data Access Object.
  * 
@@ -47,6 +49,19 @@ public class JPACard extends JPAS implements ICard, Serializable {
     }
     
     /**
+     * Retrieves all Card records from the Card table 
+     * that are not marked as hidden.
+     * 
+     * @return List<> of Board Data Transfer Objects.
+     */
+    @Override
+    public List<Card> findAllNonHidden() {
+        TypedQuery<Card> query = 
+        em.createNamedQuery("findAllNonHiddenCards", Card.class);
+        return query.getResultList();
+    }
+    
+    /**
      * Retrieves a Card from the Board table, 
      * corresponding to a given Card id.
      * 
@@ -75,6 +90,21 @@ public class JPACard extends JPAS implements ICard, Serializable {
     public boolean updateDueDate(int cardId, Date updatedDueDate) {
         Card dbC = findById(cardId);
             dbC.setDateDue(updatedDueDate);
+        return true;
+    }
+    
+    /**
+     * Renames an existing Card record 
+     * 
+     * @param newCardTitle The new title to apply to the Card.
+     * @param existingCardId The id of an existing Card record.
+     * @return True if no problems were encountered, otherwise false.
+     */
+    @Override
+    public boolean rename(String newCardTitle, int existingCardId) {
+        Card dbC = findById(existingCardId);
+            dbC.setTitle(newCardTitle);
+            em.flush();
         return true;
     }
 

@@ -13,6 +13,7 @@ import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 /**
  * CardMember JPA Data Access Object.
@@ -58,6 +59,19 @@ public class JPACardMember extends JPAS implements ICardMember, Serializable {
         em.createNamedQuery("findAllCardMembers", CardMember.class);
         return query.getResultList();
     }
+    
+    /**
+     * Retrieves all CardMember records from the CardMember table 
+     * that are not marked as hidden.
+     * 
+     * @return List<> of Board Data Transfer Objects.
+     */
+    @Override
+    public List<CardMember> findAllNonHidden() {
+        TypedQuery<CardMember> query = 
+        em.createNamedQuery("findAllNonHiddenCardMembers", CardMember.class);
+        return query.getResultList();
+    }
 
     /**
      * Retrieves a CardMember from the CardMember table, 
@@ -74,6 +88,43 @@ public class JPACardMember extends JPAS implements ICardMember, Serializable {
                     + cardMemberId);
         }
         return cardMemberToFind;
+    }
+    
+    /**
+     * Retrieves a CardMember from the CardMember table, 
+     * corresponding to a given CardMember name.
+     * 
+     * @param cardMemberName The name of the CardMember.
+     * @return A CardMember DTO, or null if no matching board was found.
+     */
+    @Override
+    public CardMember findByName(String cardMemberName) {
+        try 
+        {
+            TypedQuery<CardMember> query = 
+                em.createNamedQuery("findByCardMemberName", CardMember.class);
+            query.setParameter("cardMemberName", cardMemberName);
+            return query.getSingleResult();
+        } 
+        catch (NoResultException e) 
+        {
+            return null;
+        }
+    }
+    
+    /**
+     * Renames an existing CardMember record 
+     * 
+     * @param newCardMemberName The new name to apply to the CardMember.
+     * @param existingCardMemberId The id of an existing CardMember record.
+     * @return True if no problems were encountered, otherwise false.
+     */
+    @Override
+    public boolean rename(String newCardMemberName, int existingCardMemberId) {
+        CardMember dbCM = findById(existingCardMemberId);
+            dbCM.setName(newCardMemberName);
+            em.flush();
+        return true;
     }
 
     /**

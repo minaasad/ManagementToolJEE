@@ -13,6 +13,7 @@ import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 /**
  * Label JPA Data Access Object.
@@ -75,9 +76,46 @@ public class JPALabel extends JPAS implements ILabel, Serializable {
         }
         return labelToFind;
     }
+    
+    /**
+     * Retrieves a Label from the Label table, 
+     * corresponding to a given Label name.
+     * 
+     * @param labelName The name of the Label.
+     * @return A Board DTO, or null if no matching board was found.
+     */
+    @Override
+    public Label findByName(String labelName) {
+        try 
+        {
+            TypedQuery<Label> query = 
+                em.createNamedQuery("findByLabelName", Label.class);
+            query.setParameter("labelName", labelName);
+            return query.getSingleResult();
+        } 
+        catch (NoResultException e) 
+        {
+            return null;
+        }
+    }
 
     @Override
     public int findCountBelongingToBoardId(int boardId) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    /**
+     * Renames an existing Card record 
+     * 
+     * @param newLabelTitle The new title to apply to the Label.
+     * @param existingLabelId The id of an existing Label record.
+     * @return True if no problems were encountered, otherwise false.
+     */
+    @Override
+    public boolean rename(String newLabelTitle, int existingLabelId) {
+        Label dbLB = findById(existingLabelId);
+            dbLB.setName(newLabelTitle);
+            em.flush();
+        return true;
     }
 }

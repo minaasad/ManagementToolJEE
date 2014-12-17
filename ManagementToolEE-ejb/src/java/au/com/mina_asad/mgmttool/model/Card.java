@@ -7,10 +7,9 @@ package au.com.mina_asad.mgmttool.model;
  *
 */
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import javax.enterprise.context.Dependent;
+import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,11 +17,11 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 /**
@@ -49,18 +48,12 @@ import javax.validation.constraints.Size;
 *  Persistence Entity Name.
 */
 @Entity(name = "Card")
-/**
-*  Named Queries.
-*/
+@Cacheable(false)
 @NamedQueries({
     @NamedQuery(
-        name="findAllMembersBelongingToCard",
-        query="select m from CardMember m " +
-        "where m.owner.id= :cardid"),
-    @NamedQuery(
-        name="deleteAllMembersBelongingToCard",
-        query="delete from CardMember m " +
-        "where m.owner.id = :cardid")
+        name="findAllNonHiddenCards",
+        query="select c from Card c " +
+        "where c.hidden = false")
 })
 public class Card implements Serializable {
     /*
@@ -75,8 +68,8 @@ public class Card implements Serializable {
             Reverse relationship declaration to the Board entity.
         */
         private BoardList owner;
-        private Label label;
-        private List<CardMember> members = new ArrayList<>();
+        private Label label = new Label();
+        private CardMember member = new CardMember();
         /*
             By default, a card is NOT hidden.
         */
@@ -125,6 +118,7 @@ public class Card implements Serializable {
      * @return Card description (optional).
     */
     @Column(nullable = true)
+    @Size(max=50)
     public String getDescription() {
         return description;
     }
@@ -137,7 +131,8 @@ public class Card implements Serializable {
     *  Retrieve {@link #dateDue}
      * @return Card due date.
     */
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
+    @Future
     public Date getDateDue() {
         return dateDue;
     }
@@ -168,16 +163,16 @@ public class Card implements Serializable {
     }
 
     /**
-    *  Retrieve {@link #members}
-     * @return List<> of card lists.
+    *  Retrieve {@link #member}
+     * @return Member assigned to this card.
     */
-    @OneToMany(mappedBy = "owner")
-    public List<CardMember> getMembers() {
-        return members;
+    @OneToOne
+    public CardMember getMember() {
+        return member;
     }
 
-    public void setMembers(List<CardMember> members) {
-        this.members = members;
+    public void setMember(CardMember member) {
+        this.member = member;
     }
     
     /**

@@ -6,11 +6,15 @@ package au.com.mina_asad.mgmttool.service.impl;
  * modify it in exchange for some acknowledgement to the author.
  *
 */
+import au.com.mina_asad.mgmttool.db.jpa.JPABoardList;
 import au.com.mina_asad.mgmttool.db.jpa.JPACard;
+import au.com.mina_asad.mgmttool.model.Board;
+import au.com.mina_asad.mgmttool.model.BoardList;
 import au.com.mina_asad.mgmttool.model.Card;
 import au.com.mina_asad.mgmttool.service.ISVCCard;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -36,15 +40,27 @@ public class SVCCard implements ISVCCard, Serializable {
     @EJB
     JPACard jCard;
     
+    @EJB
+    JPABoardList jBoardList;
+    
     /**
      * Service method to assist in creating a new Card.
      * 
      * @param newCard New Card object.
+     * @param BoardListId Id of the existing host BoardList record.
      * @return Newly generated Card id.
      */
     @Override
-    public int create(Card newCard) {
+    public int create(Card newCard, int BoardListId) {
+        BoardList hostBoardList = jBoardList.findById(BoardListId);
+        newCard.setOwner(hostBoardList);
+        
         return jCard.create(newCard);
+    }
+    
+    @Override
+    public List<Card> findAllNonHidden() {
+        return jCard.findAllNonHidden();
     }
 
     @Override
@@ -55,6 +71,11 @@ public class SVCCard implements ISVCCard, Serializable {
     @Override
     public boolean updateDueDate(int cardId, Date updatedDueDate) {
         return jCard.updateDueDate(cardId, updatedDueDate);
+    }
+    
+    @Override
+    public boolean rename(String newCardTitle, int existingCardId) {
+        return jCard.rename(newCardTitle, existingCardId);
     }
 
     @Override

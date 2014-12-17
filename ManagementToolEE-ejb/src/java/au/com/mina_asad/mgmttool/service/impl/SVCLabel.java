@@ -56,9 +56,32 @@ public class SVCLabel implements ISVCLabel, Serializable {
     public Label findById(int labelId) {
         return jLabel.findById(labelId);
     }
+    
+    @Override
+    public Label findByName(String labelName) {
+        return jLabel.findByName(labelName);
+    }
 
     @Override
     public int findCountBelongingToBoardId(int boardId) {
         return jLabel.findCountBelongingToBoardId(boardId);
+    }
+
+    @Override
+    public boolean rename(String newLabelTitle, int existingLabelId) {
+        return jLabel.rename(newLabelTitle, existingLabelId);
+    }
+    
+    /**
+     * Service method to assist in determining whether a label name is
+     * already being used or not.
+     *
+     * @param labelName Suggested label name to check.
+     * @return True if name is taken, otherwise false;
+     */
+    @Override
+    public boolean isNameTaken(String labelName)
+    {
+        return (findByName(labelName)!=null);
     }
 }

@@ -12,9 +12,8 @@ import java.io.Serializable;
 import java.util.List;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
-import javax.ejb.TransactionAttribute;
-import javax.ejb.TransactionAttributeType;
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 /**
  * Board JPA Data Access Object.
@@ -60,6 +59,19 @@ public class JPABoard extends JPAS implements IBoard, Serializable {
         em.createNamedQuery("findAllBoards", Board.class);
         return query.getResultList();
     }
+    
+    /**
+     * Retrieves all Board records from the Board table 
+     * that are not marked as hidden.
+     * 
+     * @return List<> of Board Data Transfer Objects.
+     */
+    @Override
+    public List<Board> findAllNonHidden() {
+        TypedQuery<Board> query = 
+        em.createNamedQuery("findAllNonHiddenBoards", Board.class);
+        return query.getResultList();
+    }
 
     /**
      * Retrieves a Board from the Board table, 
@@ -69,7 +81,6 @@ public class JPABoard extends JPAS implements IBoard, Serializable {
      * @return A Board object accordingly.
      */
     @Override
-    @TransactionAttribute(TransactionAttributeType.MANDATORY)
     public Board findById(int boardId) {
         Board boardToFind = em.find(Board.class, boardId);
         if (boardToFind == null) {
@@ -77,6 +88,43 @@ public class JPABoard extends JPAS implements IBoard, Serializable {
                     + boardId);
         }
         return boardToFind;
+    }
+    
+    /**
+     * Retrieves a board from the Board table, 
+     * corresponding to a given board name.
+     * 
+     * @param boardName The name of the board.
+     * @return A Board DTO, or null if no matching board was found.
+     */
+    @Override
+    public Board findByName(String boardName) {
+        try 
+        {
+            TypedQuery<Board> query = 
+                em.createNamedQuery("findByBoardName", Board.class);
+            query.setParameter("boardName", boardName);
+            return query.getSingleResult();
+        } 
+        catch (NoResultException e) 
+        {
+            return null;
+        }
+    }
+    
+    /**
+     * Renames an existing Board record 
+     * 
+     * @param newBoardName The new name to apply to the board.
+     * @param existingBoardId The id of an existing Board record.
+     * @return True if no problems were encountered, otherwise false.
+     */
+    @Override
+    public boolean rename(String newBoardName, int existingBoardId) {
+        Board dbB = findById(existingBoardId);
+            dbB.setName(newBoardName);
+            em.flush();
+        return true;
     }
 
     /**
@@ -89,6 +137,7 @@ public class JPABoard extends JPAS implements IBoard, Serializable {
     public boolean archiveById(int existingBoardId) {
         Board dbB = findById(existingBoardId);
             dbB.setHidden(true);
+            em.flush();
         return true;
     }
 }
