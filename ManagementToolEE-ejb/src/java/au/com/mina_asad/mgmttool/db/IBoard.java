@@ -24,6 +24,7 @@ public interface IBoard
     public List<Board>          findAllNonHidden();
     public Board                findById(int boardId);
     public Board                findByName(String boardName);
+    public int                  findListsCountBelongingToBoardId(int boardId);
     public boolean              rename(String newBoardName, int existingBoardId);
     public boolean              archiveById(int existingBoardId);
 }

@@ -64,13 +64,21 @@ public class SVCCard implements ISVCCard, Serializable {
     }
 
     @Override
-    public Card findById(int cardId) {
-        return jCard.findById(cardId);
+    public Card findById(int cardId, int ownerId) {
+        Card returnedCard = jCard.findById(cardId);
+        returnedCard.setOwner(jBoardList.findById(ownerId));
+        
+        return returnedCard;
     }
 
     @Override
     public boolean updateDueDate(int cardId, Date updatedDueDate) {
         return jCard.updateDueDate(cardId, updatedDueDate);
+    }
+    
+    @Override
+    public boolean update(Card updatedCard) {
+        return jCard.update(updatedCard);
     }
     
     @Override

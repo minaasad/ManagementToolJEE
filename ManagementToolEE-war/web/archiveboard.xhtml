@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui">
+    <f:metadata>
+        <f:viewAction action="#{boardController.loadBoard(param.index)}"/>
+    </f:metadata>
+    <h:head>
+        <title>Archive Board</title>
+    </h:head>
+    <h:body>
+        <h:form>
+            <center>
+                <div class="container">
+                    <div class="panel panel-default">
+                        <h1>Archive Board</h1>
+                        <p>Are you sure you would like to archive #{boardController.board.name}?</p>
+                    </div>
+                    <h:inputHidden value="#{boardController.board.id}"></h:inputHidden>
+
+                    <div>
+                        <h:messages></h:messages>
+                        <b:buttonGroup>
+                                <b:button icon="remove" value="Cancel" outcome="index"></b:button>
+                                <b:commandButton icon="ok" value="Yes" action="#{boardController.archive()}"></b:commandButton>
+                        </b:buttonGroup>
+                    </div>
+                </div>
+            </center>
+        </h:form>
+    </h:body>
+</html>
+

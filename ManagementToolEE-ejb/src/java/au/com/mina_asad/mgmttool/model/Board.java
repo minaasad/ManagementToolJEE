@@ -62,6 +62,10 @@ import javax.persistence.Transient;
         query="select count(ls.id) from BoardList ls " +
         "where ls.owner.id = :boardid"),
     @NamedQuery(
+        name="findAllListsBelongingToBoard",
+        query="select ls from BoardList ls " +
+        "where ls.owner.id= :boardid"),
+    @NamedQuery(
         name="findCountLabelsBelongingToBoard",
         query="select count(lb.id) from Label lb " +
         "where lb.boardOwner.id = :boardid")
@@ -70,7 +74,7 @@ public class Board implements Serializable {
     /*
         Attributes
     */
-        private int id, currentLabelCount;
+        private int id, currentListCount;
         private String name;
         /*
             By default, a board is NOT hidden.
@@ -141,20 +145,20 @@ public class Board implements Serializable {
     }
     
     /**
-     *  Retrieve {@link #currentLabelCount}.
+     *  Retrieve {@link #currentListCount}.
      *  This is a Transient value, and thus cannot be
      *  stored in the Board database table. It
      *  is helpful during runtime only.
      *
-     * @return Board's current label count.
+     * @return Board's current list count.
      */
     @Transient
-    public int getCurrentLabelCount() {
-        return currentLabelCount;
+    public int getCurrentListCount() {
+        return currentListCount;
     }
 
-    public void setCurrentLabelCount(int currentLabelCount) {
-        this.currentLabelCount = currentLabelCount;
+    public void setCurrentListCount(int currentListCount) {
+        this.currentListCount = currentListCount;
     }
 
     /**
@@ -194,6 +198,6 @@ public class Board implements Serializable {
         return "Board [id="   + id + 
                 ", name="       + name + 
                 ", isHidden="   + hidden +
-                ", currentLabelCount=" + currentLabelCount;
+                ", currentListCount=" + currentListCount;
     }
 }

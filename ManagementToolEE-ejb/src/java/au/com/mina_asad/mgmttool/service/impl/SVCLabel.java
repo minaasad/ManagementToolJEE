@@ -63,11 +63,6 @@ public class SVCLabel implements ISVCLabel, Serializable {
     }
 
     @Override
-    public int findCountBelongingToBoardId(int boardId) {
-        return jLabel.findCountBelongingToBoardId(boardId);
-    }
-
-    @Override
     public boolean rename(String newLabelTitle, int existingLabelId) {
         return jLabel.rename(newLabelTitle, existingLabelId);
     }

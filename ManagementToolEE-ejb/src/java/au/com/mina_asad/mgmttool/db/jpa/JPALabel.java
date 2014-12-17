@@ -98,11 +98,6 @@ public class JPALabel extends JPAS implements ILabel, Serializable {
             return null;
         }
     }
-
-    @Override
-    public int findCountBelongingToBoardId(int boardId) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
     
     /**
      * Renames an existing Card record 

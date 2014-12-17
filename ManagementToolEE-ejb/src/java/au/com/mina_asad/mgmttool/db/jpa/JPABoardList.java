@@ -106,6 +106,14 @@ public class JPABoardList extends JPAS implements IBoardList, Serializable {
         return Integer.parseInt(query.getSingleResult().toString());
     }
     
+    @Override
+    public int findCardsCountBelongingToBoardListId(int boardListId) {
+        Query query = 
+            em.createNamedQuery("findCountCardsBelongingToBoardList");
+        query.setParameter("boardlistid", boardListId);
+        return Integer.parseInt(query.getSingleResult().toString());
+    }
+    
     /**
      * Renames an existing BoardList record 
      * 

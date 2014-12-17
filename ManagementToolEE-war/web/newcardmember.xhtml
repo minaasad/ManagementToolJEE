@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui">
+    <h:head>
+        <title>New Member</title>
+    </h:head>
+    <h:body>
+        <h:form>
+            <center>
+                <div class="container">
+                    <div class="panel panel-default">
+                        <h1>New Member</h1>
+                        <div class="panel-body">
+                            <h:panelGrid columns="1" cellpadding="5">
+                                <label><h:outputText value="Name:"/>
+                                        <b:inputText id="bo_name"
+                                                     value="#{cardMemberController.cardMember.name}" 
+                                                     placeholder=""
+                                                     validatorMessage="Member name must be between 2 and 22 characters"/>
+                                </label>
+                            </h:panelGrid>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h:messages></h:messages>
+                        <b:buttonGroup>
+                                <b:button icon="remove" value="Cancel" outcome="index"></b:button>
+                                <b:commandButton icon="ok" value="Save" action="#{cardMemberController.saveAsNew()}"></b:commandButton>
+                        </b:buttonGroup>
+                    </div>
+                </div>
+            </center>
+        </h:form>
+    </h:body>
+</html>
+

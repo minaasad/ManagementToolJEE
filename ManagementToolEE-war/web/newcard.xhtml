@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui">
+    <f:metadata>
+        <f:viewAction action="#{boardListController.loadBoardList(param.blindex)}"/>
+    </f:metadata>
+    <h:head>
+        <title>New Card</title>
+    </h:head>
+    <h:body>
+        <h:form>
+            <center>
+                <div class="container">
+                    <div class="panel panel-default" style="margin-bottom: 30px;">
+                        <h1>Create Card</h1>
+                        <div class="panel-body">
+                            <h:panelGrid columns="1" cellpadding="5">
+                                <label><h:outputText value="Title:"/>
+                                        <h:inputText id="cr_ttl"
+                                                     value="#{cardController.card.title}" 
+                                                     class="form-control"
+                                                     validatorMessage="Card title must be between 2 and 22 characters"/>
+                                </label>
+                                
+                                <label><h:outputText value="Short Description:"/>
+                                        <h:inputTextarea id="cr_desc"
+                                                     value="#{cardController.card.description}" 
+                                                     class="form-control"
+                                                     validatorMessage="Card description cannot exceed 50 characters"/>
+                                </label>
+                                
+                                <label><h:outputText value="Due Date:"/>
+                                        <h:inputText id="cr_dtedue"
+                                                     value="#{cardController.card.dateDue}" 
+                                                     class="form-control"
+                                                     validatorMessage="Card due date is invalid or not in the future"
+                                                     converterMessage="Card due date format is invalid. Please use dd/MM/yyyy"
+                                                     >
+                                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                        </h:inputText>
+                                </label>
+                                
+                                <label><h:outputText value="Assign To:"/>
+                                        <h:selectOneMenu id="cr_mmbr"
+                                                         class="form-control"
+                                                         value="#{cardController.card.member.id}">
+                                            <f:selectItems value="#{cardMembersController.listOfAllCardMembers}" 
+                                                           var="cardmember" 
+                                                           itemValue="#{cardmember.id}" 
+                                                           itemLabel="#{cardmember.name} (#{cardmember.id})"/>
+                                        </h:selectOneMenu>
+                                </label>
+                                
+                                <label><h:outputText value="Label:"/>
+                                        <h:selectOneMenu id="cr_lbl"
+                                                         class="form-control"
+                                                         value="#{cardController.card.label.id}">
+                                            <f:selectItems value="#{labelsController.listOfAllLabels}" 
+                                                           var="cardlbl" 
+                                                           itemValue="#{cardlbl.id}" 
+                                                           itemLabel="#{cardlbl.name}"/>
+                                        </h:selectOneMenu>
+                                </label>
+                            </h:panelGrid>
+                        </div>
+                        <h:inputHidden value="#{boardListController.boardList.id}"></h:inputHidden>
+                    </div>
+                    <div>
+                        <h:messages></h:messages>
+                        <b:buttonGroup>
+                                <b:button icon="remove" value="Cancel" outcome="viewcards">
+                                    <f:param name="bindex" value="#{param.bindex}"/>
+                                    <f:param name="blindex" value="#{param.blindex}"/>
+                                </b:button>
+                                <b:commandButton icon="ok" value="Create" action="#{cardController.saveAsNew()}"></b:commandButton>
+                        </b:buttonGroup>
+                    </div>
+                </div>
+            </center>
+        </h:form>
+    </h:body>
+</html>
+

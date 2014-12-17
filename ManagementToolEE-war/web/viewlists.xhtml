@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui">
+    <f:metadata>
+        <f:viewAction action="#{boardController.loadBoard(param.index)}"/>
+    </f:metadata>
+    <h:head>
+        <title>According Lists</title>
+    </h:head>
+    <h:body>
+        <b:jumbotron>
+            <p>Board: #{boardController.board.name}</p>
+            
+            <b:buttonGroup>
+                <b:button value="Back" icon="arrow-left" outcome="index"></b:button>
+                <b:button value="Create a List" outcome="newlist">
+                    <f:param name="bindex" value="#{boardController.board.id}"/>
+                </b:button>
+            </b:buttonGroup>
+        </b:jumbotron>
+        
+        <div class="container">
+            <center>
+                <h5>Lists in #{boardController.board.name}</h5>
+                <h:dataTable var="boardlist" 
+                             value="#{boardController.board.lists}" 
+                             class="table">
+                    <h:column rendered="#{!boardlist.hidden}">
+                        <f:facet name="header">
+                            List
+                        </f:facet>
+                        <h:link value="#{boardlist.name}" outcome="viewcards" disabled="#{boardlist.hidden}">
+                            <f:param name="bindex" value="#{boardlist.owner.id}"/>
+                            <f:param name="blindex" value="#{boardlist.id}"/>
+                        </h:link>
+                        &nbsp;<h:outputText value="#{boardlist.hidden? '(Archived)' : ''}"></h:outputText>
+                    </h:column>
+                    <h:column>
+                        <b:buttonGroup size="xs">
+                            <b:button icon="search" value="view cards" outcome="viewcards" disabled="#{boardlist.hidden}">
+                                    <f:param name="bindex" value="#{boardlist.owner.id}"/>
+                                    <f:param name="blindex" value="#{boardlist.id}"/>
+                            </b:button>
+                            <b:button icon="pencil" value="rename" outcome="editlist" disabled="#{boardlist.hidden}">
+                                    <f:param name="bindex" value="#{boardController.board.id}"/>     
+                                    <f:param name="blindex" value="#{boardlist.id}"/>
+                            </b:button>
+                            <b:button icon="inbox" value="archive" outcome="archivelist" disabled="#{boardlist.hidden}">
+                                    <f:param name="bindex" value="#{boardController.board.id}"/>     
+                                    <f:param name="blindex" value="#{boardlist.id}"/>
+                            </b:button>
+                        </b:buttonGroup>
+                    </h:column>
+                </h:dataTable>
+                <hr/>
+                <small>A quick project by Mina Asad</small>
+            </center>
+        </div>
+    </h:body>
+</html>
+

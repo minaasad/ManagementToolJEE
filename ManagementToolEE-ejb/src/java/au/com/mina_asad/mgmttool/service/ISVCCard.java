@@ -25,8 +25,9 @@ import javax.ejb.Local;
 public interface ISVCCard {
     public int                  create(Card newCard, int BoardListId);
     public List<Card>           findAllNonHidden();
-    public Card                 findById(int cardId);
+    public Card                 findById(int cardId, int ownerId);
     public boolean              updateDueDate (int cardId, Date updatedDueDate);
+    public boolean              update(Card updatedCard);
     public boolean              rename(String newCardTitle, int existingCardId);
     public boolean              archiveById(int existingCardId);
 }

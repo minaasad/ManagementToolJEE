@@ -14,6 +14,7 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+import org.apache.jasper.tagplugins.jstl.ForEach;
 /**
  * Bride Service Object.
  * 
@@ -54,7 +55,14 @@ public class SVCBoard implements ISVCBoard, Serializable {
     
     @Override
     public List<Board> findAllNonHidden() {
-        return jBoard.findAllNonHidden();
+        List<Board> returnBoards = jBoard.findAllNonHidden();
+        
+        for (Board returnBoard : returnBoards) {
+            returnBoard.setCurrentListCount(
+                    jBoard.findListsCountBelongingToBoardId(returnBoard.getId()));
+        }
+        
+        return returnBoards;
     }
 
     @Override

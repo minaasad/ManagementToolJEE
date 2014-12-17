@@ -54,9 +54,9 @@ import javax.validation.constraints.Size;
         query="select bl from BoardList bl " +
         "where bl.hidden = false"),
     @NamedQuery(
-        name="findAllListsBelongingToBoard",
-        query="select ls from BoardList ls " +
-        "where ls.owner.id= :boardid")
+        name="findCountCardsBelongingToBoardList",
+        query="select count(c.id) from Card c " +
+        "where c.owner.id = :boardlistid")
 })
 public class BoardList implements Serializable {
     /*

@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:b="http://bootsfaces.net/ui">
+    <f:metadata>
+        <f:viewAction action="#{boardController.loadBoard(param.bindex)}"/>
+        <f:viewAction action="#{boardListController.loadBoardList(param.blindex)}"/>
+    </f:metadata>
+    <h:head>
+        <title>According Lists</title>
+    </h:head>
+    <h:body>
+        <b:jumbotron>
+            <p>
+                Board: #{boardController.board.name}
+                <br/>
+                List: #{boardListController.boardList.name}
+            </p>
+            
+            <b:buttonGroup>
+                <b:button value="Home" icon="home" outcome="index"></b:button>
+                <b:button value="Back" icon="arrow-left" outcome="viewlists">
+                    <f:param name="index" value="#{param.bindex}"/>
+                </b:button>
+                <b:button value="Create a Card" outcome="newcard">
+                    <f:param name="bindex" value="#{param.bindex}"/>
+                    <f:param name="blindex" value="#{param.blindex}"/>
+                </b:button>
+            </b:buttonGroup>
+        </b:jumbotron>
+        
+        <div class="container">
+            <center>
+                <h5>Cards in #{boardListController.boardList.name}</h5>
+                <h:dataTable var="card" 
+                             value="#{boardListController.boardList.cards}" 
+                             class="table">
+                    <h:column>
+                        <f:facet name="header">
+                            Card
+                        </f:facet>
+                        <h:outputText value="#{card.title}">
+                            <f:param name="index" value="#{card.id}"/>
+                        </h:outputText>
+                        &nbsp;<b:badge value="#{card.label.name}"></b:badge>
+                        &nbsp;<h:outputText value="#{card.hidden? '(Archived)' : ''}"></h:outputText>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            
+                        </f:facet>
+                        <h:outputText value="#{card.description}"></h:outputText>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            Due by
+                        </f:facet>
+                        <h:outputText value="#{card.dateDue.toLocaleString()}"></h:outputText>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            Assigned to
+                        </f:facet>
+                        <span class="glyphicon glyphicon-user"></span>&nbsp;
+                        <h:outputText value="#{card.member.name}"></h:outputText>
+                    </h:column>
+                    <h:column>
+                        <b:buttonGroup size="xs">
+                            <b:button icon="pencil" value="rename" outcome="editcard" disabled="#{card.hidden}">
+                                     <f:param name="cindex" value="#{card.id}"/>
+                                     <f:param name="bindex" value="#{boardController.board.id}"/>
+                                     <f:param name="blindex" value="#{boardListController.boardList.id}"/>
+                            </b:button>
+                            <b:button icon="move" value="move" outcome="movecard" disabled="#{card.hidden}">
+                                     <f:param name="cindex" value="#{card.id}"/>
+                                     <f:param name="bindex" value="#{boardController.board.id}"/>
+                                     <f:param name="blindex" value="#{boardListController.boardList.id}"/>
+                            </b:button>
+                            <b:button icon="inbox" value="archive" outcome="archivecard" disabled="#{card.hidden}">
+                                     <f:param name="cindex" value="#{card.id}"/>
+                                     <f:param name="bindex" value="#{boardController.board.id}"/>
+                                     <f:param name="blindex" value="#{boardListController.boardList.id}"/>
+                            </b:button>
+                        </b:buttonGroup>
+                    </h:column>
+                </h:dataTable>
+                <hr/>
+                <small>A quick project by Mina Asad</small>
+            </center>
+        </div>
+    </h:body>
+</html>
+

@@ -14,6 +14,7 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 /**
  * Board JPA Data Access Object.
@@ -110,6 +111,14 @@ public class JPABoard extends JPAS implements IBoard, Serializable {
         {
             return null;
         }
+    }
+    
+    @Override
+    public int findListsCountBelongingToBoardId(int boardId) {
+        Query query = 
+            em.createNamedQuery("findCountListsBelongingToBoard");
+        query.setParameter("boardid", boardId);
+        return Integer.parseInt(query.getSingleResult().toString());
     }
     
     /**

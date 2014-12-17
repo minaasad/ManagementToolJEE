@@ -24,6 +24,7 @@ public interface ICard
     public List<Card>           findAllNonHidden();
     public Card                 findById(int cardId);
     public boolean              updateDueDate (int cardId, Date updatedDueDate);
+    public boolean              update(Card updatedCard);
     public boolean              rename(String newCardTitle, int existingCardId);
     public boolean              archiveById(int existingCardId);
 }

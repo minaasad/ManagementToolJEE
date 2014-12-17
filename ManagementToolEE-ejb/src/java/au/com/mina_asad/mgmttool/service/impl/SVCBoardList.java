@@ -63,7 +63,15 @@ public class SVCBoardList implements ISVCBoardList, Serializable {
     
     @Override
     public List<BoardList> findAllNonHidden() {
-        return jBoardList.findAllNonHidden();
+        List<BoardList> returnBoardLists = jBoardList.findAllNonHidden();
+        
+        for (BoardList returnBoardList : returnBoardLists) {
+            returnBoardList.setCurrentCardCount(
+                    jBoardList.findCardsCountBelongingToBoardListId(
+                            returnBoardList.getId()));
+        }
+        
+        return returnBoardLists;
     }
 
     @Override

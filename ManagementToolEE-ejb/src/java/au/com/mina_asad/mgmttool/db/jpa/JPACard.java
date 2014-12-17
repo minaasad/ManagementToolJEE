@@ -107,6 +107,20 @@ public class JPACard extends JPAS implements ICard, Serializable {
             em.flush();
         return true;
     }
+    
+    /**
+     * Updates the entirety an existing Card record 
+     * 
+     * @param updatedCard The updated card object.
+     * @return True if no problems were encountered, otherwise false.
+     */
+    @Override
+    public boolean update(Card updatedCard) {
+        Card dbC = findById(updatedCard.getId());
+            dbC = updatedCard;
+            em.flush();
+        return true;
+    }
 
     /**
      * Archives (or sets hidden=true) an existing BoardList record 

@@ -9,9 +9,85 @@
     </h:head>
     <h:body>
         <b:jumbotron>
-            Get started now. Create and manipulate boards, lists, cards, members, and labels.
-            <b:button value="Create a Board"></b:button>
+            <p>Create and manipulate boards, lists, cards, members, and labels.</p>
+            <b:button value="Create a Board" outcome="newboard"></b:button>
         </b:jumbotron>
+        
+        <div class="container">
+            <center>
+                <b:row>
+                    <b:column span="6">
+                        <h5>Available boards</h5>
+                        <h:dataTable var="board" value="#{boardsController.listOfAllBoards}" class="table">
+                            <h:column>
+                                <f:facet name="header">
+                                    Board
+                                </f:facet>
+                                <h:link value="#{board.name}" outcome="viewlists">
+                                         <f:param name="index" value="#{board.id}"/>
+                                </h:link>
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">
+                                    Lists
+                                </f:facet>
+                                <h:outputText value="#{board.currentListCount}"/>
+                            </h:column>
+                            <h:column>
+                                <b:buttonGroup size="xs">
+                                    <b:button icon="search" value="view lists" outcome="viewlists">
+                                             <f:param name="index" value="#{board.id}"/>
+                                    </b:button>
+                                    <b:button icon="pencil" value="rename" outcome="editboard">
+                                             <f:param name="index" value="#{board.id}"/>
+                                    </b:button>
+                                    <b:button icon="inbox" value="archive" outcome="archiveboard">
+                                             <f:param name="index" value="#{board.id}"/>
+                                    </b:button>
+                                </b:buttonGroup>
+                            </h:column>
+                        </h:dataTable>
+                    </b:column>
+                    <b:column span="6">
+                        <h5>Registered members</h5>
+                        <h:dataTable var="member" value="#{cardMembersController.listOfAllCardMembers}" class="table">
+                            <h:column>
+                                <f:facet name="header">
+                                    Member
+                                </f:facet>
+                                <h:outputText value="#{member.name}"></h:outputText>
+                            </h:column>
+                            <h:column>
+                                <b:buttonGroup size="xs">
+                                    <b:button icon="pencil" value="rename" outcome="editmember">
+                                             <f:param name="index" value="#{member.id}"/>
+                                    </b:button>
+                                    <b:button icon="inbox" value="archive" outcome="archivemember">
+                                             <f:param name="index" value="#{member.id}"/>
+                                    </b:button>
+                                </b:buttonGroup>
+                            </h:column>
+                        </h:dataTable>
+                        <b:button value="New member" icon="plus" outcome="newcardmember"></b:button>
+                    </b:column>
+                </b:row>
+                <b:row>
+                    <h5>Available labels</h5>
+                    <h:dataTable var="label" value="#{labelsController.listOfAllLabels}" class="table">
+                        <h:column>
+                            <b:badge value="#{label.name}"></b:badge>
+                        </h:column>
+                        <h:column>
+                            <b:button size="xs" icon="pencil" value="rename" outcome="editlabel">
+                                <f:param name="index" value="#{label.id}"/>
+                            </b:button>
+                        </h:column>
+                    </h:dataTable>
+                </b:row>
+                <hr/>
+                <small>A quick project by Mina Asad</small>
+            </center>
+        </div>
     </h:body>
 </html>
 
