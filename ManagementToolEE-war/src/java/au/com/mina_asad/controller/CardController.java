@@ -96,7 +96,7 @@ public class CardController {
      * @throws javax.naming.NamingException
      */
     public String move() throws NamingException {
-        ejbCard.update(card);
+        ejbCard.move(card.getId(), boardListController.getBoardList().getId());
         return "index?faces-redirect=true";
     }
     

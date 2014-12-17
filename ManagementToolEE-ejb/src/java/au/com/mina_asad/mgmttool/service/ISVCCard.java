@@ -27,7 +27,7 @@ public interface ISVCCard {
     public List<Card>           findAllNonHidden();
     public Card                 findById(int cardId, int ownerId);
     public boolean              updateDueDate (int cardId, Date updatedDueDate);
-    public boolean              update(Card updatedCard);
+    public boolean              move(int existingCardId, int existingBoardListLocation);
     public boolean              rename(String newCardTitle, int existingCardId);
     public boolean              archiveById(int existingCardId);
 }

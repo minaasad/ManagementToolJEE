@@ -25,7 +25,7 @@
                                 <h:panelGrid columns="1" cellpadding="5">
                                     <h:selectOneMenu id="cr_lbl"
                                                     class="form-control"
-                                                    value="#{cardController.card.owner.id}">
+                                                    value="#{boardListController.boardList.id}">
                                         <f:selectItems value="#{boardController.board.lists}" 
                                                       var="cardblists" 
                                                       itemValue="#{cardblists.id}" 
@@ -45,7 +45,7 @@
                                     <f:param name="bindex" value="#{param.bindex}"/>
                                     <f:param name="blindex" value="#{param.blindex}"/>
                                 </b:button>
-                                <b:commandButton icon="ok" value="Move" action="#{cardController.update()}"></b:commandButton>
+                                <b:commandButton icon="ok" value="Move" action="#{cardController.move()}"></b:commandButton>
                         </b:buttonGroup>
                     </div>
                 </div>

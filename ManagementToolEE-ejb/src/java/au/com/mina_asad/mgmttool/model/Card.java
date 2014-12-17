@@ -67,7 +67,7 @@ public class Card implements Serializable {
         /*
             Reverse relationship declaration to the Board entity.
         */
-        private BoardList owner = new BoardList();
+        private BoardList owner;
         private Label label = new Label();
         private CardMember member = new CardMember();
         /*

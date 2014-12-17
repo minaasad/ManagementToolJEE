@@ -7,6 +7,7 @@ package au.com.mina_asad.mgmttool.db.jpa;
  *
 */
 import au.com.mina_asad.mgmttool.db.ICard;
+import au.com.mina_asad.mgmttool.model.BoardList;
 import au.com.mina_asad.mgmttool.model.Card;
 import java.io.Serializable;
 import java.util.Date;
@@ -111,13 +112,14 @@ public class JPACard extends JPAS implements ICard, Serializable {
     /**
      * Updates the entirety an existing Card record 
      * 
-     * @param updatedCard The updated card object.
+     * @param existingCardId Valid existing card id.
+     * @param newBoardList An existing BoardList where the card will be moved.
      * @return True if no problems were encountered, otherwise false.
      */
     @Override
-    public boolean update(Card updatedCard) {
-        Card dbC = findById(updatedCard.getId());
-            dbC = updatedCard;
+    public boolean move(int existingCardId, BoardList newBoardList) {
+        Card dbC = findById(existingCardId);
+            dbC.setOwner(newBoardList);
             em.flush();
         return true;
     }

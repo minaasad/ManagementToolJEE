@@ -77,8 +77,10 @@ public class SVCCard implements ISVCCard, Serializable {
     }
     
     @Override
-    public boolean update(Card updatedCard) {
-        return jCard.update(updatedCard);
+    public boolean move(int existingCardId, int existingBoardListLocation) {
+        BoardList newCardListLocation = jBoardList.findById(existingBoardListLocation);
+        
+        return jCard.move(existingCardId, newCardListLocation);
     }
     
     @Override

@@ -6,6 +6,7 @@ package au.com.mina_asad.mgmttool.db;
  * modify it in exchange for some acknowledgement to the author.
  *
 */
+import au.com.mina_asad.mgmttool.model.BoardList;
 import au.com.mina_asad.mgmttool.model.Card;
 import java.util.Date;
 import java.util.List;
@@ -24,7 +25,7 @@ public interface ICard
     public List<Card>           findAllNonHidden();
     public Card                 findById(int cardId);
     public boolean              updateDueDate (int cardId, Date updatedDueDate);
-    public boolean              update(Card updatedCard);
+    public boolean              move(int existingCardId, BoardList newBoardList);
     public boolean              rename(String newCardTitle, int existingCardId);
     public boolean              archiveById(int existingCardId);
 }
